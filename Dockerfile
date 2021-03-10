@@ -1,0 +1,20 @@
+FROM golang:1.15-alpine
+
+ENV APP_NAME=golang-azure-eventhub
+ENV GIN_MODE=release
+ENV EVENT_HUB_CONNECTION=
+ENV STORAGE_ACCOUNT_NAME=
+ENV STORAGE_ACCOUNT_KEY=
+ENV STORAGE_ACCOUNT_CONTAINER=
+ENV PORT=8080
+
+WORKDIR /go/src/app
+COPY . .
+
+RUN go get -d -v ./...
+RUN go install -v ./...
+RUN rm -rf /go/src/app
+
+EXPOSE $PORT
+
+ENTRYPOINT $APP_NAME
